@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090b16" />
+    <title>Neon Noughts — Tic-Tac-Toe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" id="brand-home" aria-label="Neon Arcade home">
+          <span class="brand-mark"><i></i><i></i><i></i><i></i></span>
+          <span>NEON ARCADE</span>
+        </a>
+        <div class="topbar-status"><span class="live-dot"></span> GAME ROOM <strong id="room-number">01</strong></div>
+      </header>
+
+      <section class="hub-screen" id="hub-screen">
+        <div class="hub-hero">
+          <div class="eyebrow"><span class="line"></span> WELCOME TO THE ARCADE <span class="line"></span></div>
+          <h1>Pick your <em>play.</em></h1>
+          <p>Quick matches, bright lights, and just enough chaos to keep it interesting.</p>
+        </div>
+        <div class="game-cards">
+          <button class="game-card ttt-card" data-game="ttt">
+            <span class="card-number">01</span>
+            <span class="card-art card-art-grid"><i>X</i><i>O</i><i>X</i><i>O</i></span>
+            <span class="card-title">TIC-TAC-TOE</span>
+            <span class="card-copy">Own the grid. Outplay the opponent.</span>
+            <span class="card-action">PLAY NOW <b>↗</b></span>
+          </button>
+          <button class="game-card rps-card" data-game="rps">
+            <span class="card-number">02</span>
+            <span class="card-art card-art-rps"><i>✊</i><i>✋</i><i>✌</i></span>
+            <span class="card-title">ROCK PAPER SCISSORS</span>
+            <span class="card-copy">Read the room. Make the winning call.</span>
+            <span class="card-action">PLAY NOW <b>↗</b></span>
+          </button>
+        </div>
+      </section>
+
+      <div class="game-screen" id="ttt-screen" hidden>
+      <section class="hero">
+        <div class="eyebrow"><span class="line"></span> THE CLASSIC, REIMAGINED <span class="line"></span></div>
+        <h1>Make your <em>move.</em></h1>
+        <p>A little strategy. A little swagger. Play the grid and own the moment.</p>
+      </section>
+
+      <section class="game-layout" aria-label="Tic-Tac-Toe game">
+        <aside class="score-panel panel">
+          <div class="panel-label">SCOREBOARD <span>⟡</span></div>
+          <div class="player-score player-x">
+            <div class="player-icon x-icon">X</div>
+            <div class="score-copy"><span>PLAYER X</span><strong id="score-x">0</strong></div>
+          </div>
+          <div class="score-divider"><span>VS</span></div>
+          <div class="player-score player-o">
+            <div class="player-icon o-icon">O</div>
+            <div class="score-copy"><span>PLAYER O</span><strong id="score-o">0</strong></div>
+          </div>
+          <div class="streak">
+            <span class="streak-icon">✦</span>
+            <div><span>BEST STREAK</span><strong id="best-streak">0 WINS</strong></div>
+          </div>
+        </aside>
+
+        <div class="board-wrap">
+          <div class="turn-banner" id="turn-banner" aria-live="polite">
+            <span class="turn-symbol x-text" id="turn-symbol">X</span>
+            <span><b id="turn-name">PLAYER X</b>'S TURN</span>
+          </div>
+          <div class="board" id="board" role="grid" aria-label="Tic-Tac-Toe board">
+            <button class="cell" data-index="0" role="gridcell" aria-label="Top left, empty"></button>
+            <button class="cell" data-index="1" role="gridcell" aria-label="Top center, empty"></button>
+            <button class="cell" data-index="2" role="gridcell" aria-label="Top right, empty"></button>
+            <button class="cell" data-index="3" role="gridcell" aria-label="Middle left, empty"></button>
+            <button class="cell" data-index="4" role="gridcell" aria-label="Center, empty"></button>
+            <button class="cell" data-index="5" role="gridcell" aria-label="Middle right, empty"></button>
+            <button class="cell" data-index="6" role="gridcell" aria-label="Bottom left, empty"></button>
+            <button class="cell" data-index="7" role="gridcell" aria-label="Bottom center, empty"></button>
+            <button class="cell" data-index="8" role="gridcell" aria-label="Bottom right, empty"></button>
+            <div class="winning-line" id="winning-line"></div>
+          </div>
+          <div class="game-message" id="game-message" aria-live="polite"></div>
+        </div>
+
+        <aside class="controls-panel panel">
+          <div class="panel-label">GAME MODE <span>◒</span></div>
+          <div class="mode-buttons" role="group" aria-label="Game mode">
+            <button class="mode-button active" data-mode="friend"><span>♟</span> VS FRIEND</button>
+            <button class="mode-button" data-mode="cpu"><span>◈</span> VS COMPUTER</button>
+          </div>
+          <div class="control-rule"></div>
+          <div class="panel-label">SETTINGS <span>⚙</span></div>
+          <label class="select-label" for="difficulty">COMPUTER LEVEL</label>
+          <select id="difficulty" disabled>
+            <option value="smart">SMART</option>
+            <option value="chill">CHILL</option>
+          </select>
+          <label class="select-label starter-label" for="starter">FIRST MOVE</label>
+          <select id="starter" disabled>
+            <option value="alternate">ALTERNATE TURNS</option>
+            <option value="human">YOU START</option>
+            <option value="computer">COMPUTER STARTS</option>
+          </select>
+          <button class="new-round" id="new-round"><span>↻</span> NEW ROUND</button>
+          <button class="reset-game" id="reset-game">RESET SCOREBOARD</button>
+        </aside>
+      </section>
+      </div>
+
+      <section class="game-screen rps-screen" id="rps-screen" hidden>
+        <div class="hero">
+          <div class="eyebrow"><span class="line"></span> HANDS UP <span class="line"></span></div>
+          <h1>Trust your <em>instinct.</em></h1>
+          <p>Pick a move. The computer is already thinking.</p>
+        </div>
+        <div class="rps-layout">
+          <aside class="rps-score panel">
+            <div class="panel-label">MATCH SCORE <span>✦</span></div>
+            <div class="rps-score-row"><span>YOU</span><strong id="rps-player-score">0</strong></div>
+            <div class="rps-score-row"><span>COMPUTER</span><strong id="rps-computer-score">0</strong></div>
+            <div class="rps-score-row draws"><span>DRAWS</span><strong id="rps-draw-score">0</strong></div>
+            <div class="streak"><span class="streak-icon">✦</span><div><span>BEST STREAK</span><strong id="rps-best-streak">0 WINS</strong></div></div>
+          </aside>
+          <div class="rps-arena">
+            <div class="rps-result" id="rps-result" aria-live="polite"><span>MAKE YOUR MOVE</span></div>
+            <div class="hands">
+              <div class="hand-zone"><span class="hand-label">YOU</span><div class="hand-display" id="player-hand">?</div></div>
+              <div class="versus">VS</div>
+              <div class="hand-zone"><span class="hand-label">COMPUTER</span><div class="hand-display" id="computer-hand">?</div></div>
+            </div>
+            <div class="choice-buttons" role="group" aria-label="Choose rock, paper, or scissors">
+              <button class="choice-button rock" data-choice="rock"><span>✊</span><b>ROCK</b></button>
+              <button class="choice-button paper" data-choice="paper"><span>✋</span><b>PAPER</b></button>
+              <button class="choice-button scissors" data-choice="scissors"><span>✌</span><b>SCISSORS</b></button>
+            </div>
+            <div class="rps-message" id="rps-message" aria-live="polite"></div>
+          </div>
+          <aside class="rps-controls panel">
+            <div class="panel-label">SETTINGS <span>⚙</span></div>
+            <label class="select-label" for="rps-difficulty">COMPUTER LEVEL</label>
+            <select id="rps-difficulty">
+              <option value="easy">EASY — RANDOM</option>
+              <option value="medium" selected>MEDIUM — ADAPTIVE</option>
+              <option value="hard">HARD — COUNTERPLAY</option>
+            </select>
+            <button class="new-round" id="rps-reset"><span>↻</span> RESET MATCH</button>
+            <button class="back-button" data-back>← BACK TO GAMES</button>
+          </aside>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>DESIGNED FOR THE BOLD</span>
+        <span class="footer-symbol">◆</span>
+        <span>NO RELOADS. JUST REMATCHES.</span>
+      </footer>
+    </main>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
